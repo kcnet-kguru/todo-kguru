@@ -1,67 +1,63 @@
-import boardList from '../data/data.json'
+import { auth,
+        board,
+        list,
+        card } from '../api'
 
 const actions = {
     LOGIN ({ commit }, { email, password }) {
-        console.log(`passed email:: ${email} and passowrd:: ${password}`);
-        commit('LOGIN', { accessToken: 'f5af9f51-07e6-4332-8f1a-c0c11c1e3728"' })
+        auth.login({ email, password })
+          .then(() => commit('LOGIN', { accessToken: 'f5af9f51-07e6-4332-8f1a-c0c11c1e3728"' }))
     },
     FETCH_BOARD_LIST ({ commit }) {
-        commit('SET_BOARD_LIST', boardList)
+        board.fetchAll()
+          .then(res => commit('SET_BOARD_LIST', res.data))
+
     },
     FETCH_BOARD ({ commit }, id) {
-        let item;
-        boardList.forEach(e => {
-            if(e.id === id) item = e;
-        })
-        commit('SET_BOARD', { item })
+        board.fetchBoard(id)
+          .then( res => commit('SET_BOARD', res.data))
+
     },
-    ADD_BOARD (_, title) {
-        boardList.push({id: 99, title: title, bgColor: "rgb(0, 121, 191)"})
+    ADD_BOARD ({ dispatch }, title) {
+        board.create({ title })
+          .then( res => dispatch('FETCH_BOARD', res.data.id))
     },
     UPDATE_BOARD ({ state, dispatch }, { id, title, bgColor }) {
-        console.log(title)
-        boardList.forEach(e => {
-            if(e.id === id) e.bgColor = bgColor;
-        })
-        dispatch('FETCH_BOARD', state.board.id)
+        board.modify({ id, title, bgColor })
+          .then( res => dispatch('FETCH_BOARD', res.data.id) )
+
     },
     DELETE_BOARD (_, id) {
-        console.log(id);
+        board.deleteBoard(id).then()
     },
     ADD_LIST ({ state, dispatch }, { title, boardId, pos }) {
-        console.log({ title, boardId, pos })
-        dispatch('FETCH_BOARD', state.board.id)
+        list.create({ title, boardId, pos })
+          .then( res => dispatch('FETCH_BOARD', res.data.id))
     },
     UPDATE_LIST ({ state, dispatch }, { id, pos, title }) {
-        console.log({ id, pos, title })
-        dispatch('FETCH_BOARD', state.board.id)
+        list.modify({ id, pos, title })
+          .then(res => dispatch('FETCH_BOARD', res.data.id))
+
     },
     DELETE_LIST ({ state, dispatch }, { id, pos, title }) {
-        console.log({ id, pos, title })
-        dispatch('FETCH_BOARD', state.board.id)
+        list.deleteList({ id, pos, title })
+          .then(res => dispatch('FETCH_BOARD', res.data.id))
     },
     FETCH_CARD ({ commit }, id) {
-        let data;
-        boardList.forEach(e => {
-            e.lists.forEach(list => {
-                list.cards.forEach(card => {
-                    if(card.id === id) data = card
-                })
-            })
-        })
-        commit('SET_CARD', data)
+        card.fetchCard(id)
+          .then( res => commit('SET_CARD', res.data) )
     },
     ADD_CARD ({ state, dispatch }, { title, pos, listId }) {
-        console.log({ title, pos, listId })
-        dispatch('FETCH_BOARD', state.board.id)
+        card.create({ title, pos, listId })
+          .then(res => dispatch('FETCH_BOARD', res.data.id))
     },
     UPDATE_CARD({ state, dispatch }, { id, pos, title, description, listId }) {
-        console.log({ id, pos, title, description, listId })
-        dispatch('FETCH_BOARD', state.board.id)
+        card.modify({ id, pos, title, description, listId })
+          .then( res => dispatch('FETCH_BOARD', res.data.id))
     },
     DELETE_CARD({ state, dispatch }, id) {
-        console.log(id)
-        dispatch('FETCH_BOARD', state.board.id)
+        card.deleteCard(id)
+          .then(() => dispatch('FETCH_BOARD', id))
     }
 }
 
