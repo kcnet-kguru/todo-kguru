@@ -1,7 +1,7 @@
 import auth from './auth'
-import board from './board'
-import list from './list'
-import card from './card'
+import board from './boards'
+import list from './lists'
+import card from './cards'
 
 export {
   auth,
