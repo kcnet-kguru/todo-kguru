@@ -1,4 +1,4 @@
-const state = {
+const states = {
     accessToken: null,
     boardList: [],
     board: {
@@ -11,4 +11,4 @@ const state = {
     bodyColor: 'rgb(255,255,255)'
 }
 
-export default state
+export default states

@@ -22,7 +22,7 @@ const actions = {
         board.create({ title })
           .then( res => dispatch('FETCH_BOARD', res.data.id))
     },
-    UPDATE_BOARD ({ state, dispatch }, { id, title, bgColor }) {
+    UPDATE_BOARD ({ dispatch }, { id, title, bgColor }) {
         board.modify({ id, title, bgColor })
           .then( res => dispatch('FETCH_BOARD', res.data.id) )
 
@@ -30,16 +30,16 @@ const actions = {
     DELETE_BOARD (_, id) {
         board.deleteBoard(id).then()
     },
-    ADD_LIST ({ state, dispatch }, { title, boardId, pos }) {
+    ADD_LIST ({ dispatch }, { title, boardId, pos }) {
         list.create({ title, boardId, pos })
           .then( res => dispatch('FETCH_BOARD', res.data.id))
     },
-    UPDATE_LIST ({ state, dispatch }, { id, pos, title }) {
+    UPDATE_LIST ({ dispatch }, { id, pos, title }) {
         list.modify({ id, pos, title })
           .then(res => dispatch('FETCH_BOARD', res.data.id))
 
     },
-    DELETE_LIST ({ state, dispatch }, { id, pos, title }) {
+    DELETE_LIST ({ dispatch }, { id, pos, title }) {
         list.deleteList({ id, pos, title })
           .then(res => dispatch('FETCH_BOARD', res.data.id))
     },
@@ -47,15 +47,15 @@ const actions = {
         card.fetchCard(id)
           .then( res => commit('SET_CARD', res.data) )
     },
-    ADD_CARD ({ state, dispatch }, { title, pos, listId }) {
+    ADD_CARD ({ dispatch }, { title, pos, listId }) {
         card.create({ title, pos, listId })
           .then(res => dispatch('FETCH_BOARD', res.data.id))
     },
-    UPDATE_CARD({ state, dispatch }, { id, pos, title, description, listId }) {
+    UPDATE_CARD({ dispatch }, { id, pos, title, description, listId }) {
         card.modify({ id, pos, title, description, listId })
           .then( res => dispatch('FETCH_BOARD', res.data.id))
     },
-    DELETE_CARD({ state, dispatch }, id) {
+    DELETE_CARD({ dispatch }, id) {
         card.deleteCard(id)
           .then(() => dispatch('FETCH_BOARD', id))
     }
