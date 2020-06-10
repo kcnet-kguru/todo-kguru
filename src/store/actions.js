@@ -11,12 +11,10 @@ const actions = {
     FETCH_BOARD_LIST ({ commit }) {
         board.fetchAll()
           .then(res => commit('SET_BOARD_LIST', res.data))
-
     },
     FETCH_BOARD ({ commit }, id) {
         board.fetchBoard(id)
           .then( res => commit('SET_BOARD', res.data))
-
     },
     ADD_BOARD ({ dispatch }, title) {
         board.create({ title })
@@ -25,7 +23,6 @@ const actions = {
     UPDATE_BOARD ({ dispatch }, { id, title, bgColor }) {
         board.modify({ id, title, bgColor })
           .then( res => dispatch('FETCH_BOARD', res.data.id) )
-
     },
     DELETE_BOARD (_, id) {
         board.deleteBoard(id).then()

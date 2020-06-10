@@ -4,11 +4,25 @@
         <form @submit.prevent="onSubmit">
             <div>
                 <label for="email">Email</label>
-                <input class="form-control" type="text" id="email" name="email" v-model="email" autofocus placeholder="e.g., test@test.com" />
+                <input class="form-control"
+                       type="text"
+                       id="email"
+                       name="email"
+                       v-model="email"
+                       autofocus
+                       autocomplete="off"
+                       placeholder="" />
             </div>
             <div>
                 <label for="password">Passwrod</label>
-                <input class="form-control" type="password" id="password" v-model="password" placeholder="123123" />
+                <input class="form-control"
+                       type="password"
+                       id="password"
+                       v-model="password"
+                       autocomplete="off"
+                       placeholder="password"
+                       @keydown.enter="onSubmit"
+                />
             </div>
             <button  class="btn" :class="{'btn-success': !invalidForm}" type="submit" :disabled="invalidForm">Log In</button>
         </form>

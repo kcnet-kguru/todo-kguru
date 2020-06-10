@@ -10,6 +10,7 @@ const mutations = {
         delete localStorage.accessToken
     },
     SET_BOARD_LIST (state, list) {
+        console.dir(list);
         state.boardList = list.map(board => board)
     },
     SET_BOARD(state, { item }) {

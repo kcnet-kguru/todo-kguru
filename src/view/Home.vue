@@ -2,7 +2,7 @@
     <div>
         <div class="home-title">ToDo Board</div>
         <div class="board-list">
-            <div class="board-item" v-for="(board, i) in boardList" :key="i" :data-bgcolor="board.bgColor">
+            <div class="board-item" v-for="(board, i) in boardList" :key="i" :style="`backgroundColor:${board.bgColor}`">
                 <router-link :to="`/board/${board.id}`">
                     <div class="board-item-title">{{board.title}}</div>
                 </router-link>
@@ -35,11 +35,6 @@
         created() {
             this.FETCH_BOARD_LIST()
             this.SET_THEME()
-        },
-        mounted() {
-            Array.from(document.querySelectorAll('.board-item')).forEach(el => {
-                el.style.backgroundColor = el.dataset.bgcolor || '#ddd'
-            })
         },
         methods: {
             ...mapMutations([

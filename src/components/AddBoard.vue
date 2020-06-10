@@ -10,11 +10,17 @@
         <div slot="body">
             <form id="add-board-form"
                   @submit.prevent="onSubmitCreateBoard">
-                <input class="form-control" type="text" v-model="inputBoardTitle" ref="inputBoardTitle">
+                <input class="form-control"
+                       type="text"
+                       v-model="inputBoardTitle"
+                       ref="inputBoardTitle">
             </form>
         </div>
         <div slot="footer">
-            <button class="btn" :class="{'btn-success': isValidInput}" type="submit" form="add-board-form" :disabled="!isValidInput">
+            <button class="btn"
+                    :class="{'btn-success': isValidInput}"
+                    type="submit" form="add-board-form"
+                    :disabled="!isValidInput">
                 Create Board
             </button>
         </div>
