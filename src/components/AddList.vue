@@ -36,8 +36,9 @@
                 this.inputTitle = this.inputTitle.trim()
                 if (!this.inputTitle) return this.resotre()
                 const title = this.inputTitle
+              console.log(this.board.lists);
                 const pos = this.board.lists[this.board.lists.length - 1].pos * 2
-                const boardId = this.board.id
+                const boardId = this.board.boardId
                 this.ADD_LIST({title, pos, boardId}).then(()=> this.resotre())
             },
             resotre() {

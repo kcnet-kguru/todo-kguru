@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <board-settings v-if="isShowBoardMenu"/>
-                <router-view :boardId="board.id"></router-view>
+                <router-view :boardId="board.boardId"></router-view>
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
             })
         },
         created () {
-            this.fetchData().then(()=> {
+            this.fetchData().then(() => {
                 this.inputTitle = this.board.title
                 this.SET_THEME(this.board.bgColor)
             })

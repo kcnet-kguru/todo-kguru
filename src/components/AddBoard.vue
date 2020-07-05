@@ -59,7 +59,7 @@
                 if (!this.inputBoardTitle.trim()) return
 
                 this.ADD_BOARD(this.inputBoardTitle)
-                    .then(id => this.$router.push(`/board/${id}`))
+                    .then( id => this.$router.push(`/board/${id}`))
                     .catch(err => console.log(err))
                     .finally(()=> (this.SET_IS_ADD_BOARD(false)))
             }

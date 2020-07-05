@@ -10,10 +10,9 @@ const mutations = {
         delete localStorage.accessToken
     },
     SET_BOARD_LIST (state, list) {
-        console.dir(list);
         state.boardList = list.map(board => board)
     },
-    SET_BOARD(state, { item }) {
+    SET_BOARD(state, item) {
         state.board = item
     },
     SET_IS_ADD_BOARD (state, toggle) {
@@ -26,7 +25,7 @@ const mutations = {
         state.isShowBoardMenu = toggle
     },
     SET_THEME (state, color) {
-        state.bodyColor = color ? color : 'rgb(255,255,255)'
+        state.bodyColor = color ? color : 'rgb(255, 255, 255)'
         state.navbarColor = color ? 'rgba(0,0,0,.15)' : '#026aa7'
     }
 }

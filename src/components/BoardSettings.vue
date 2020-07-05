@@ -48,9 +48,10 @@
                     .then(()=> this.$router.push('/'))
             },
             onClickChangeColor(el) {
-                const id = this.board.id
+                const id = this.board.boardId
+                const title = this.board.title
                 const bgColor = el.target.dataset.value
-                this.UPDATE_BOARD({id, bgColor}).then(()=> {
+                this.UPDATE_BOARD({id, title, bgColor}).then(()=> {
                     document.querySelector('body').style.backgroundColor = this.board.bgColor
                     document.querySelector('.header').style.backgroundColor = 'rgba(0,0,0,.15)'
                 })
