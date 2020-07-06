@@ -1,7 +1,7 @@
 <template>
     <div class="list add-list">
         <input class="form-control" v-if="isAddList" type="text" ref="inputTitle" v-model="inputTitle"
-               @keyup.enter="onSubmitTitle" @blur="resotre">
+               @keyup.enter="onSubmitTitle" @blur="restore">
         <a v-else @click="onClickAddList">&plus; Add another list</a>
     </div>
 </template>
@@ -34,14 +34,13 @@
             },
             onSubmitTitle() {
                 this.inputTitle = this.inputTitle.trim()
-                if (!this.inputTitle) return this.resotre()
+                if (!this.inputTitle) return this.restore()
                 const title = this.inputTitle
-              console.log(this.board.lists);
                 const pos = this.board.lists[this.board.lists.length - 1].pos * 2
                 const boardId = this.board.boardId
-                this.ADD_LIST({title, pos, boardId}).then(()=> this.resotre())
+                this.ADD_LIST({title, pos, boardId}).then(()=> this.restore())
             },
-            resotre() {
+            restore() {
                 this.isAddList = false
                 this.inputTitle = ''
             }

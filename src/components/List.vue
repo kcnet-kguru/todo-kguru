@@ -13,7 +13,7 @@
                        :card="card" :boardId="list.boardId"></card-item>
         </div>
         <div v-if="isAddCard">
-            <add-card :pos="lastCardPos" :listId="list.id" @close="isAddCard = false"></add-card>
+            <add-card :pos="lastCardPos" :listId="list.listId" @close.prevent="isAddCard = false"></add-card>
         </div>
         <a v-else class="add-card-btn" href="" @click.prevent="isAddCard = true">
             &plus; Add a card...
@@ -42,7 +42,7 @@
         },
         computed: {
             lastCardPos() {
-                const lastCard = this.list.cards[this.list.card.length - 1]
+                const lastCard = this.list.cards.length > 0?this.list.cards[this.list.card.length - 1]:undefined
                 let pos = 65535
                 if (lastCard) pos = lastCard.pos + pos
                 return pos
@@ -70,7 +70,7 @@
             },
             onDeleteList() {
                 if (!confirm(`Delete ${this.list.title} list ?`)) return
-                this.DELETE_LIST({ id: this.list.id })
+                this.DELETE_LIST({ id: this.list.listId, boardId: this.$route.params.id })
             }
         }
     }

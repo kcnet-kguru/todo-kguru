@@ -29,23 +29,26 @@ const actions = {
     },
     ADD_LIST ({ dispatch }, { title, boardId, pos }) {
         return  list.create({ title, boardId, pos })
-          .then( res => dispatch('FETCH_BOARD', res.data.id))
+          .then( res => dispatch('FETCH_BOARD', res.data.boardId))
     },
     UPDATE_LIST ({ dispatch }, { id, pos, title }) {
         return  list.modify({ id, pos, title })
           .then(res => dispatch('FETCH_BOARD', res.data.id))
 
     },
-    DELETE_LIST ({ dispatch }, { id, pos, title }) {
-        return  list.deleteList({ id, pos, title })
-          .then(res => dispatch('FETCH_BOARD', res.data.id))
+    DELETE_LIST ({ dispatch }, { id, boardId }) {
+        return  list.deleteList({ id, boardId })
+          .then(res => {
+              console.log(res)
+              dispatch('FETCH_BOARD', res.data)
+          })
     },
     FETCH_CARD ({ commit }, id) {
         return  card.fetchCard(id)
           .then( res => commit('SET_CARD', res.data) )
     },
-    ADD_CARD ({ dispatch }, { title, pos, listId }) {
-        return  card.create({ title, pos, listId })
+    ADD_CARD ({ dispatch }, { title, pos, listId, boardId }) {
+        return  card.create({ title, pos, listId, boardId })
           .then(res => dispatch('FETCH_BOARD', res.data.id))
     },
     UPDATE_CARD({ dispatch }, { id, pos, title, description, listId }) {

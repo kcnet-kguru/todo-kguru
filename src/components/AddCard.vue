@@ -34,7 +34,7 @@
             onSubmitNewCard() {
                 if (this.invalidInput) return
                 const {inputCardTitle, pos, listId} = this
-                this.ADD_CARD({title: inputCardTitle, pos, listId})
+                this.ADD_CARD({title: inputCardTitle, pos, listId, boardId: this.$route.params.id })
                     .finally( () => this.inputCardTitle = '')
             },
         }
