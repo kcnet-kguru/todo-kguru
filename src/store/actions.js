@@ -27,12 +27,12 @@ const actions = {
     DELETE_BOARD (_, id) {
         return  board.deleteBoard(id).then()
     },
-    ADD_LIST ({ dispatch }, { title, boardId, pos }) {
-        return  list.create({ title, boardId, pos })
+    ADD_LIST ({ dispatch }, { title, boardId, position }) {
+        return  list.create({ title, boardId, position })
           .then( res => dispatch('FETCH_BOARD', res.data.boardId))
     },
-    UPDATE_LIST ({ dispatch }, { id, pos, title }) {
-        return  list.modify({ id, pos, title })
+    UPDATE_LIST ({ dispatch }, { boardId, listId, position, title }) {
+        return  list.modify({ boardId, listId, position, title })
           .then(res => dispatch('FETCH_BOARD', res.data.boardId))
 
     },

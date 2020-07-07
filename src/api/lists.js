@@ -5,7 +5,7 @@ function create(data) {
 }
 
 function modify(data) {
-  return axios.put(`/api/lists/${data.id}`, data)
+  return axios.put(`/api/lists`, data)
 }
 
 function deleteList({ id, boardId }) {

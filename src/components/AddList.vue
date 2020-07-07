@@ -36,9 +36,9 @@
                 this.inputTitle = this.inputTitle.trim()
                 if (!this.inputTitle) return this.restore()
                 const title = this.inputTitle
-                const pos = this.board.lists[this.board.lists.length - 1].pos * 2
+                const position = this.board.lists[this.board.lists.length - 1].position * 2
                 const boardId = this.board.boardId
-                this.ADD_LIST({title, pos, boardId}).then(()=> this.restore())
+                this.ADD_LIST({title, position, boardId}).then(()=> this.restore())
             },
             restore() {
                 this.isAddList = false

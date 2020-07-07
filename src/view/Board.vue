@@ -59,79 +59,7 @@
             this.fetchData().then(() => {
                 this.inputTitle = this.board.title
                 this.SET_THEME(this.board.bgColor)
-            })
-        },
-        mounted() {
-          if (this.drakeList) this.drakeList.destroy()
-          if (this.drake) this.drake.destroy()
-
-          this.drakeList = dragula([...this.$el.querySelectorAll('.list-section')], {
-              invalid: (el, handle) => {
-                  return !/^list/.test(handle.className)
-              }
-          })
-          .on('drop', (el, wrapper) => {
-              const targetList = {
-                  id: el.children[0].dataset.listId * 1,
-                  pos: 65535
-              }
-              let prevList = null
-              let nextList = null
-
-              Array.from(wrapper.querySelectorAll('.list'))
-                .forEach((el, idx, arr) => {
-                    const listFound = targetList.id === (el.dataset.listId * 1)
-
-                    if(!listFound) return
-                    prevList = idx > 0 ? {
-                        id: arr[idx - 1].dataset.listId * 1,
-                        pos: arr[idx - 1].dataset.listPos * 1,
-                    } : null
-
-                    nextList = idx < arr.length - 1 ? {
-                        id: arr[idx + 1].dataset.listId * 1,
-                        pos: arr[idx + 1].dataset.listPos * 1,
-                    } : null
-                })
-              if (!prevList && nextList) targetList.pos = nextList.pos / 2
-              else if (!nextList && prevList) targetList.pos = prevList.pos * 2
-              else if (nextList && prevList) targetList.pos = (prevList.pos + nextList.pos) / 2
-
-              this.UPDATE_LIST(targetList)
-          })
-
-          this.drake = dragula([...this.$el.querySelectorAll('.card-list')])
-            .on('drop', (el, wrapper) => {
-              const targetCard = {
-                id: el.dataset.cardId * 1,
-                listId: wrapper.dataset.listId * 1,
-                pos: 65535,
-              }
-              let prevCard = null
-              let nextCard = null
-
-              Array.from(wrapper.querySelectorAll('.card-item'))
-                .forEach((el, idx, arr) => {
-
-                  const cardId = el.dataset.cardId * 1
-
-                  if (targetCard.id === cardId) {
-                    prevCard = idx > 0 ? {
-                      id: arr[idx - 1].dataset.cardId * 1,
-                      pos: arr[idx - 1].dataset.cardPos * 1,
-                    } : null
-                    nextCard = idx < arr.length - 1 ? {
-                      id: arr[idx + 1].dataset.cardId * 1,
-                      pos: arr[idx + 1].dataset.cardPos * 1,
-                    } : null
-                  }
-                })
-
-              if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
-              else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
-              else if (nextCard && prevCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
-
-              this.UPDATE_CARD(targetCard)
+                this.setDrake()
             })
         },
         methods: {
@@ -145,6 +73,87 @@
                 'SET_IS_SHOW_BOARD_MENU',
                 'SET_THEME'
             ]),
+            setDrake() {
+              if (this.drakeList) this.drakeList.destroy()
+              if (this.drake) this.drake.destroy()
+
+              this.drakeList = dragula([...this.$el.querySelectorAll('.list-section')], {
+                invalid: (el, handle) => {
+                  return !/^list/.test(handle.className)
+                }
+              })
+                .on('drop', (el, wrapper) => {
+                  const targetList = {
+                    id: el.children[0].dataset.listId,
+                    pos: 65535,
+                    title: el.children[0].dataset.listTitle
+                  }
+                  let prevList = null
+                  let nextList = null
+
+                  Array.from(wrapper.querySelectorAll('.list'))
+                    .forEach((el, idx, arr) => {
+                      const listFound = targetList.id === el.dataset.listId
+
+                      if(!listFound) return
+                      prevList = idx > 0 ? {
+                        id: arr[idx - 1].dataset.listId,
+                        pos: arr[idx - 1].dataset.listPos * 1,
+                      } : null
+
+                      nextList = idx < arr.length - 1 ? {
+                        id: arr[idx + 1].dataset.listId ,
+                        pos: arr[idx + 1].dataset.listPos * 1,
+                      } : null
+                    })
+                  if (!prevList && nextList) targetList.pos = nextList.pos / 2
+                  else if (!nextList && prevList) targetList.pos = prevList.pos * 2
+                  else if (nextList && prevList) targetList.pos = (prevList.pos + nextList.pos) / 2
+
+                  const data = {
+                                boardId: this.$route.params.id,
+                                listId: targetList.id,
+                                position: targetList.pos,
+                                title: targetList.title
+                               }
+                  console.log(data)
+                  this.UPDATE_LIST(data)
+                })
+
+              this.drake = dragula([...this.$el.querySelectorAll('.card-list')])
+                .on('drop', (el, wrapper) => {
+                  const targetCard = {
+                    id: el.dataset.cardId * 1,
+                    listId: wrapper.dataset.listId * 1,
+                    pos: 65535,
+                  }
+                  let prevCard = null
+                  let nextCard = null
+
+                  Array.from(wrapper.querySelectorAll('.card-item'))
+                    .forEach((el, idx, arr) => {
+
+                      const cardId = el.dataset.cardId * 1
+
+                      if (targetCard.id === cardId) {
+                        prevCard = idx > 0 ? {
+                          id: arr[idx - 1].dataset.cardId * 1,
+                          pos: arr[idx - 1].dataset.cardPos * 1,
+                        } : null
+                        nextCard = idx < arr.length - 1 ? {
+                          id: arr[idx + 1].dataset.cardId * 1,
+                          pos: arr[idx + 1].dataset.cardPos * 1,
+                        } : null
+                      }
+                    })
+
+                  if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
+                  else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
+                  else if (nextCard && prevCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
+
+                  this.UPDATE_CARD(targetCard)
+                })
+            },
             fetchData () {
                 return this.FETCH_BOARD(this.$route.params.id)
             },
