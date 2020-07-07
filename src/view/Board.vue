@@ -10,7 +10,7 @@
                 </div>
                 <div class="list-section-wrapper">
                     <div class="list-section">
-                        <div class="list-wrapper" v-for="list in board.lists" :key="list.pos">
+                        <div class="list-wrapper" v-for="list in board.lists" :key="`${list.boardId}-${list.listId}`">
                             <list :list="list"></list>
                         </div>
                         <div class="list-wrapper">
@@ -99,37 +99,39 @@
 
               this.UPDATE_LIST(targetList)
           })
+
           this.drake = dragula([...this.$el.querySelectorAll('.card-list')])
-          .on('drop', (el, wrapper) => {
-            const targetCard = {
+            .on('drop', (el, wrapper) => {
+              const targetCard = {
                 id: el.dataset.cardId * 1,
                 listId: wrapper.dataset.listId * 1,
                 pos: 65535,
-            }
-            let prevCard = null
-            let nextCard = null
+              }
+              let prevCard = null
+              let nextCard = null
 
-            Array.from(wrapper.querySelectorAll('.card-item'))
+              Array.from(wrapper.querySelectorAll('.card-item'))
                 .forEach((el, idx, arr) => {
-                    const cardId = el.dataset.cardId * 1
 
-                    if (targetCard.id === cardId) {
-                        prevCard = idx > 0 ? {
-                            id: arr[idx - 1].dataset.cardId * 1,
-                            pos: arr[idx - 1].dataset.cardPos * 1,
-                        } : null
-                        nextCard = idx < arr.length - 1 ? {
-                            id: arr[idx + 1].dataset.cardId * 1,
-                            pos: arr[idx + 1].dataset.cardPos * 1,
-                        } : null
-                    }
+                  const cardId = el.dataset.cardId * 1
+
+                  if (targetCard.id === cardId) {
+                    prevCard = idx > 0 ? {
+                      id: arr[idx - 1].dataset.cardId * 1,
+                      pos: arr[idx - 1].dataset.cardPos * 1,
+                    } : null
+                    nextCard = idx < arr.length - 1 ? {
+                      id: arr[idx + 1].dataset.cardId * 1,
+                      pos: arr[idx + 1].dataset.cardPos * 1,
+                    } : null
+                  }
                 })
 
-            if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
-            else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
-            else if (nextCard && prevCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
+              if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
+              else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
+              else if (nextCard && prevCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
 
-            this.UPDATE_CARD(targetCard)
+              this.UPDATE_CARD(targetCard)
             })
         },
         methods: {

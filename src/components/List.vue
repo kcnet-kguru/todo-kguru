@@ -7,13 +7,13 @@
             <a class="delete-list-btn" href="" @click.prevent="onDeleteList">&times;</a>
         </div>
 
-        <div class="card-list" :data-list-id="list.id">
+        <div class="card-list" :data-list-id="list.listId">
             <div  v-show="!list.cards.length" class="empty-card-item"></div>
-            <card-item v-for="card in list.cards" :key="`${list.id}-${card.pos}`"
+            <card-item v-for="card in list.cards" :key="`${list.listId}-${card.position}`"
                        :card="card" :boardId="list.boardId"></card-item>
         </div>
         <div v-if="isAddCard">
-            <add-card :pos="lastCardPos" :listId="list.listId" @close.prevent="isAddCard = false"></add-card>
+            <add-card :pos="lastCardPos" :listId="list.listId" @close="isAddCard = false"></add-card>
         </div>
         <a v-else class="add-card-btn" href="" @click.prevent="isAddCard = true">
             &plus; Add a card...
@@ -42,9 +42,9 @@
         },
         computed: {
             lastCardPos() {
-                const lastCard = this.list.cards.length > 0?this.list.cards[this.list.card.length - 1]:undefined
+                const lastCard = this.list.cards.length > 0?this.list.cards[this.list.cards.length - 1]:undefined
                 let pos = 65535
-                if (lastCard) pos = lastCard.pos + pos
+                if (lastCard) pos = lastCard.position + pos
                 return pos
             }
         },
